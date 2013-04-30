@@ -96,4 +96,10 @@ exports.extend = function (Rx) {
 	    });
     };
 
+    Rx.Observable.prototype.toBuffer = function () {
+	return this
+	    .toArray()
+	    .select(exports.concatBuffers);
+    };
+
 };
