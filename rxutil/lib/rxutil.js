@@ -58,3 +58,33 @@ exports.concatBuffers = function (buffers) {
 	return result;
     }
 };
+
+exports.extend = function (Rx) {
+
+    Rx.Observable.prototype.debug = function (prefix, inspect) {
+	var observable = this;
+
+	prefix = prefix || '';
+	inspect = inspect || util.inspect;
+
+	return Rx.Observable.create(
+	    function (observer) {
+		var logger = new Logger(prefix);
+		logger.log('debug', 'subscribe');
+
+		var disposable = observable
+		    .materialize()
+		    .doAction(function (data) {
+			var logLevel = data.kind === 'E' ? 'error' : 'debug';
+			logger.log(logLevel, inspect(data));
+		    })
+		    .dematerialize()
+		    .subscribe(observer);
+
+		return function () {
+		    logger.log('debug', 'dispose');
+		    disposable.dispose();
+		};
+	    });
+    };
+};
