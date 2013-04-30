@@ -1,3 +1,7 @@
+#emacs
+*~
+\#*
+
 # Compiled Object files
 *.slo
 *.lo
@@ -11,3 +15,5 @@
 *.lai
 *.la
 *.a
+
+node_modules
