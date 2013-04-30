@@ -4,9 +4,9 @@
     "main": "./lib/rxutil.js",
     "devDependencies": {
 	"rx": "2.0.2",
-	"nodeunit": "*",
-	"nodemock": "*",
-	"winston": "*"
+	"nodeunit": "0.8.0",
+	"nodemock": "0.2.17",
+	"winston": "0.7.1"
     },
     "scripts": {
 	"test": "nodeunit test"
