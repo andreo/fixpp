@@ -87,4 +87,13 @@ exports.extend = function (Rx) {
 		};
 	    });
     };
+
+    Rx.Observable.readFile = function (filename) {
+	return Rx.Observable.createWithDisposable(
+	    function (observer) {
+		fs.readFile(filename, exports.makeCallback(observer));
+		return Rx.Disposable.empty;
+	    });
+    };
+
 };
