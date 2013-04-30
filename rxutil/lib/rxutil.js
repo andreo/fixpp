@@ -33,14 +33,6 @@ Logger.prototype.log = function (level, message) {
     logger[level].call(logger, this.head + interval + ':' + message);
 };
 
-Logger.prototype.info = function (message) {
-    this.log('info', message);
-};
-
-Logger.prototype.error = function (message) {
-    this.log('error', message);
-};
-
 exports.Logger = Logger;
 
 exports.concatBuffers = function (buffers) {
