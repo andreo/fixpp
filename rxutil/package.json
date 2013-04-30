@@ -1,0 +1,14 @@
+{
+    "name": "rxutil",
+    "version": "0.0.1",
+    "main": "./lib/rxutil.js",
+    "devDependencies": {
+	"rx": "2.0.2",
+	"nodeunit": "*",
+	"nodemock": "*",
+	"winston": "*"
+    },
+    "scripts": {
+	"test": "nodeunit test"
+    }
+}
