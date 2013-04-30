@@ -102,4 +102,14 @@ exports.extend = function (Rx) {
 	    .select(exports.concatBuffers);
     };
 
+    Rx.Observable.readStream = function (stream, destroy) {
+	return Rx.Observable.create(
+	    function (observer) {
+		stream.on('data', observer.onNext.bind(observer));
+		stream.on('error', observer.onError.bind(observer));
+		stream.on('end', observer.onCompleted.bind(observer));
+		return destroy ? stream.destroy.bind(stream) : function () {};
+	    });
+    };
+
 };
