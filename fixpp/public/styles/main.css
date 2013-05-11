@@ -1,0 +1,33 @@
+
+.fix-field-list, .fix-group-list {
+    list-style-type: none;
+}
+
+.fix-primary {
+    font-weight: bold;
+}
+
+.fix-secondary {
+    color: gray;
+    font-weight: normal;
+}
+
+.fix-tag-number {
+    color: gray;
+}
+
+.fix-tag-name {
+    color: hsl(212, 100%, 28%);
+}
+
+.fix-tag-value {
+    color: black;
+}
+
+.fix-tag-enum {
+    color: blue;
+}
+
+.fix-header, .fix-body, .fix-trailer {
+    font-weight: bold;
+}
