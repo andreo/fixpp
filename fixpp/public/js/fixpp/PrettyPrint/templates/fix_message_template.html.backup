@@ -1,0 +1,13 @@
+<div class="fix-header">
+  Header
+  {{fix_field_list_template header}}
+</div>
+<div class="fix-body">
+  Body
+  {{fix_field_list_template body.fields}}
+  {{fix_group_list_template body.groups}}
+</div>
+<div class="fix-trailer">
+  Trailer
+  {{fix_field_list_template trailer}}
+</div>
