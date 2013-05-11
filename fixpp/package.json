@@ -1,0 +1,21 @@
+{
+    "name": "fixpp",
+    "version": "0.0.1",
+    "author": "andrey.torba@gmail.com",
+    "description": "Web tool for FIX message analysis",
+    "keyfords": ["fix", "quickfix", "pprint", "pretty print"],
+    "dependencies": {
+	"requirejs": "2.1.5",
+	"rx": "2.0.2",
+	"winston": "0.7.1",
+	"express": "3.2.1"
+    },
+    "devDependencies": {
+	"nodeunit": "0.8.0",
+	"nodemock": "0.2.17"
+    },
+    "main": "server.js",
+    "scripts": {
+	"test": "nodeunit test"
+    }
+}
