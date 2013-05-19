@@ -1,4 +1,4 @@
-#emacs
+# emacs
 *~
 \#*
 
@@ -16,4 +16,6 @@
 *.la
 *.a
 
+# node
 node_modules
+npm-debug.log
