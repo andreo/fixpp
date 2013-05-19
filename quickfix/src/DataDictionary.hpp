@@ -25,7 +25,6 @@ class DataDictionary : public node::ObjectWrap
   ~DataDictionary();
 
   static v8::Handle<v8::Value> New(v8::Arguments const& args);
-  static v8::Handle<v8::Value> parseMessage(v8::Arguments const& args);
 
   static v8::Persistent<v8::Function> s_constructor;
   FIX::DataDictionary m_dataDictionary;

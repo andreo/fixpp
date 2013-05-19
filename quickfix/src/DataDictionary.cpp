@@ -4,6 +4,7 @@
 #include "DataDictionary.hpp"
 #include "AsyncTask.hpp"
 #include "ObjectBuilder.hpp"
+#include "v8util.hpp"
 
 #include <quickfix/Message.h>
 #include <uv.h>
@@ -59,30 +60,10 @@ DataDictionary::DataDictionary()
 DataDictionary::~DataDictionary()
 {}
 
-void DataDictionary::Init(Handle<Object> target)
-{
-  // Prepare constructor template
-  Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
-  tpl->SetClassName(String::NewSymbol("DataDictionary"));
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  // Prototype
-  tpl->PrototypeTemplate()->Set(String::NewSymbol("parseMessage"),
-				FunctionTemplate::New(parseMessage)->GetFunction());
-
-  s_constructor = Persistent<Function>::New(tpl->GetFunction());
-
-  target->Set(String::NewSymbol("loadDictionary"),
-	      FunctionTemplate::New(loadDictionary)->GetFunction());
-}
-
-Handle<Value> DataDictionary::New(Arguments const& args)
-{
-  HandleScope scope;
-  DataDictionary* obj = new DataDictionary();
-  obj->Wrap(args.This());
-  return args.This();
-}
+V8_CLASS_BEGIN(DataDictionary)
+V8_CLASS_FUNCTION(loadDictionary)
+V8_CLASS_END
+V8_CLASS_NEW(DataDictionary)
 
 Handle<Value> DataDictionary::loadDictionary(Arguments const& args)
 {
@@ -104,25 +85,4 @@ Handle<Value> DataDictionary::loadDictionary(Arguments const& args)
   asyncLoad->Queue(uv_default_loop());
 
   return scope.Close(Undefined());
-}
-
-Handle<Value> DataDictionary::parseMessage(Arguments const& args)
-{
-  HandleScope scope;
-
-  String::AsciiValue message(args[0]->ToString());
-  DataDictionary* obj = ObjectWrap::Unwrap<DataDictionary>(args.This());
-  FIX::Message msg;
-  try
-    {
-      msg.setString(*message, true, &obj->m_dataDictionary);
-    }
-  catch (FIX::Exception const& error)
-    {
-      ThrowException(Exception::Error(String::New(error.what())));
-    }
-
-  ObjectBuilder builder(&obj->m_dataDictionary);
-
-  return scope.Close(builder(msg));
 }
