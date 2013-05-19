@@ -6,6 +6,8 @@
 #include "v8util.hpp"
 #include "ObjectBuilder.hpp"
 
+#include <v8.hpp>
+
 #include <exception>
 
 v8::Persistent<v8::Function> Message::s_constructor;
