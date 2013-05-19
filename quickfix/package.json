@@ -2,10 +2,10 @@
     "name": "quickfix",
     "main": "./lib/quickfix.js",
     "dependencies": {
-	"rxutil": "*",
-	"rx": "*"
+	"rxutil": "*"
     },
     "devDependencies": {
+	"rx": "*",
 	"nodeunit": "*"
     },
     "scripts": {

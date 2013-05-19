@@ -1,11 +1,12 @@
 
 var Rx = require('rx');
 var quickfix = require('../lib/quickfix');
+quickfix.extend(Rx);
 
 function makeTest(text, etalon) {
     return function (test) {
 	test.expect(1);
-	quickfix
+	Rx.Observable
 	    .findFixMessages(text)
 	    .toArray()
 	    .subscribe(
