@@ -1,3 +1,14 @@
 {
-    "name": "quickfix"
+    "name": "quickfix",
+    "main": "./lib/quickfix.js",
+    "dependencies": {
+	"rxutil": "*",
+	"rx": "*"
+    },
+    "devDependencies": {
+	"nodeunit": "*"
+    },
+    "scripts": {
+	"test": "nodeunit test"
+    }
 }
