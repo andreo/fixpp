@@ -18,6 +18,8 @@ class DataDictionary : public node::ObjectWrap
   // load dictionary asynchronosly
   static v8::Handle<v8::Value> loadDictionary(v8::Arguments const& args);
 
+  FIX::DataDictionary* GetDataDictionary() { return &m_dataDictionary; }
+
  private:
   DataDictionary();
   ~DataDictionary();

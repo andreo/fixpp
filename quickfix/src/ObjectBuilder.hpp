@@ -18,6 +18,8 @@ class ObjectBuilder
       return makeMessage(msg);
     }
 
+  v8::Handle<v8::Array> makeFieldList(FIX::FieldMap const& fields) const;
+
  private:
   void setAttribute(v8::Handle<v8::Object>& obj,
 		    std::string const& name,
@@ -32,7 +34,6 @@ class ObjectBuilder
 		    int value) const;
 
   v8::Handle<v8::Object> makeField(int field, std::string const& value) const;
-  v8::Handle<v8::Array> makeFieldList(FIX::FieldMap const& fields) const;
   v8::Handle<v8::Array> makeGroupList(FIX::FieldMap const& fields) const;
   v8::Handle<v8::Object> makeFieldMap(FIX::FieldMap const& fieldMap,
 				      int groupField,
