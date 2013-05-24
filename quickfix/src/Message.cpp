@@ -6,7 +6,7 @@
 #include "v8util.hpp"
 #include "ObjectBuilder.hpp"
 
-#include <v8.hpp>
+#include <v8.h>
 
 #include <exception>
 
@@ -19,12 +19,13 @@ Message::Message()
 Message::~Message()
 {}
 
+V8_MODULE_BEGIN(Message)
 V8_CLASS_BEGIN(Message)
 V8_CLASS_FUNCTION(setStringHeader)
 V8_CLASS_FUNCTION(setString)
 V8_CLASS_FUNCTION(headerToJSON)
 V8_CLASS_FUNCTION(toJSON)
-V8_CLASS_END
+V8_MODULE_END
 V8_CLASS_NEW(Message)
 
 v8::Handle<v8::Value> Message::setStringHeader(v8::Arguments const& args)

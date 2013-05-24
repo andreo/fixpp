@@ -3,6 +3,7 @@ var quickfix = require('../build/Release/node_quickfix.node');
 var rxutil = require('rxutil');
 
 exports.loadDictionary = quickfix.loadDictionary;
+exports.Message = quickfix.Message;
 
 exports.extend = function (Rx) {
 

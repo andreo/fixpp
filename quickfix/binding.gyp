@@ -19,9 +19,11 @@
             ],
             'cflags': ['-fexceptions'],
             'cflags_cc': ['-fexceptions'],
-            'ldflags': [
-                '-lquickfix'
-            ],
+            'link_settings': {
+                'libraries': [
+                    '-lquickfix'
+                    ],
+            },
         },
     ],
 }

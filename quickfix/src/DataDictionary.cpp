@@ -7,6 +7,7 @@
 #include "v8util.hpp"
 
 #include <quickfix/Message.h>
+#include <quickfix/DataDictionary.h>
 #include <uv.h>
 
 using namespace v8;
@@ -60,9 +61,11 @@ DataDictionary::DataDictionary()
 DataDictionary::~DataDictionary()
 {}
 
+V8_MODULE_BEGIN(DataDictionary)
 V8_CLASS_BEGIN(DataDictionary)
-V8_CLASS_FUNCTION(loadDictionary)
-V8_CLASS_END
+V8_FUNCTION(loadDictionary)
+V8_CLASS_BEGIN(DataDictionary)
+V8_MODULE_END
 V8_CLASS_NEW(DataDictionary)
 
 Handle<Value> DataDictionary::loadDictionary(Arguments const& args)

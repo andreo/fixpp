@@ -9,6 +9,7 @@
 	"nodeunit": "*"
     },
     "scripts": {
+	"bld": "node-gyp --debug build",
 	"test": "nodeunit test"
     }
 }
