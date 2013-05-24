@@ -1,6 +1,5 @@
 # -*- mode: python -*-
 {
-    'default_configuration': 'Debug',
     'targets': [
         {
             'target_name': 'node_quickfix',
