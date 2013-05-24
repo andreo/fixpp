@@ -72,6 +72,7 @@ Handle<Array> ObjectBuilder::makeFieldList(FIX::FieldMap const& fields) const
     {
       list->Set(Integer::New(i),
 		makeField(it->first, it->second.getString()));
+      ++i;
     }
 
   return scope.Close(list);
@@ -100,6 +101,7 @@ Handle<Array> ObjectBuilder::makeGroupList(FIX::FieldMap const& fields) const
 	{
 	  list->Set(Integer::New(i), makeFieldMap(**k, it->first, groupName));
 	}
+      ++i;
     }
   
   return scope.Close(list);

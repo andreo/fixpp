@@ -62,10 +62,11 @@ DataDictionary::~DataDictionary()
 {}
 
 V8_MODULE_BEGIN(DataDictionary)
-V8_CLASS_BEGIN(DataDictionary)
-V8_FUNCTION(loadDictionary)
-V8_CLASS_BEGIN(DataDictionary)
-V8_MODULE_END
+{
+  V8_FUNCTION(loadDictionary);
+  V8_CLASS_BEGIN(DataDictionary);
+  V8_CLASS_END(DataDictionary);
+}
 V8_CLASS_NEW(DataDictionary)
 
 Handle<Value> DataDictionary::loadDictionary(Arguments const& args)
@@ -78,7 +79,7 @@ Handle<Value> DataDictionary::loadDictionary(Arguments const& args)
     callback = Handle<Function>::Cast(args[1]);
 
   Local<Object> instance = s_constructor->NewInstance();
-  DataDictionary* obj = ObjectWrap::Unwrap<DataDictionary>(instance);
+  DataDictionary* obj = node::ObjectWrap::Unwrap<DataDictionary>(instance);
 
   AsyncLoad* asyncLoad = new AsyncLoad(&obj->m_dataDictionary,
 				       std::string(*fieldName),

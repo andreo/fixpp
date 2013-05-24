@@ -4,6 +4,7 @@ var rxutil = require('rxutil');
 
 exports.loadDictionary = quickfix.loadDictionary;
 exports.Message = quickfix.Message;
+exports.DataDictionary = quickfix.DataDictionary;
 
 exports.extend = function (Rx) {
 

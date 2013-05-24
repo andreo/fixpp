@@ -1,25 +1,23 @@
 
-#define V8_MODULE_BEGIN(ModuleName) \
-void ModuleName::Init(v8::Handle<v8::Object> target)			\
-{									\
-  v8::Local<v8::FunctionTemplate> tpl = v8::FunctionTemplate::New(New);
-
-#define V8_CLASS_BEGIN(ClassName)					\
-  tpl->SetClassName(v8::String::NewSymbol( #ClassName ));		\
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);			\
-  s_constructor = v8::Persistent<v8::Function>::New(tpl->GetFunction()); \
-  target->Set(v8::String::NewSymbol( #ClassName ), s_constructor);	\
+#define V8_MODULE_BEGIN(ModuleName)					\
+void ModuleName::Init(v8::Handle<v8::Object> target)
 
 #define V8_FUNCTION(FunctionName)					\
   target->Set(v8::String::NewSymbol( #FunctionName ),			\
-				v8::FunctionTemplate::New(FunctionName)->GetFunction());
+				v8::FunctionTemplate::New(FunctionName)->GetFunction())
+
+#define V8_CLASS_BEGIN(ClassName)					\
+  v8::Local<v8::FunctionTemplate> tpl = v8::FunctionTemplate::New(New);	\
+  tpl->SetClassName(v8::String::NewSymbol( #ClassName ));		\
+  tpl->InstanceTemplate()->SetInternalFieldCount(1)
 
 #define V8_CLASS_FUNCTION(FunctionName)					\
   tpl->PrototypeTemplate()->Set(v8::String::NewSymbol( #FunctionName ), \
-				v8::FunctionTemplate::New(FunctionName)->GetFunction());
+				v8::FunctionTemplate::New(FunctionName)->GetFunction())
 
-#define V8_MODULE_END				\
-  }
+#define V8_CLASS_END(ClassName)						\
+  s_constructor = v8::Persistent<v8::Function>::New(tpl->GetFunction()); \
+  target->Set(v8::String::NewSymbol( #ClassName ), s_constructor)
 
 #define V8_CLASS_NEW(ClassName)						\
   v8::Handle<v8::Value> ClassName::New(v8::Arguments const& args)	\
