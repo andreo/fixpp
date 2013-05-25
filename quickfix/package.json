@@ -10,7 +10,8 @@
 	"nodeunit": "0.8.x"
     },
     "scripts": {
-	"bld": "node-gyp --debug build",
+	"debug": "node-gyp --debug build",
+	"release": "node-gyp --release build",
 	"test": "nodeunit test"
     }
 }

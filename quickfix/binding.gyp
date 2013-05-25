@@ -16,12 +16,26 @@
                 './src/ObjectBuilder.cpp',
                 './src/AsyncTask.hpp',
             ],
-            'cflags': ['-fexceptions'],
-            'cflags_cc': ['-fexceptions'],
+            'conditions': [
+                [
+                    'OS=="mac"', {
+                        'xcode_settings': {
+                            'GCC_PREFIX_HEADER': './src/stdafx.h',
+                            'GCC_PRECOMPILE_PREFIX_HEADER': 'YES',
+                            'OTHER_CPLUSPLUSFLAGS' : ['-fcxx-exceptions',],
+                        },
+                    },
+                ],
+                [
+                    'OS=="linux"', {
+                        'cflags_cc': ['-fcxx-exceptions'],
+                    },
+                ],
+            ],
             'link_settings': {
                 'libraries': [
                     '-lquickfix'
-                    ],
+                ],
             },
         },
     ],
