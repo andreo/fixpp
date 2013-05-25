@@ -1,12 +1,13 @@
 {
     "name": "quickfix",
+    "version": "0.0.1",
     "main": "./lib/quickfix.js",
     "dependencies": {
 	"rxutil": "*"
     },
     "devDependencies": {
-	"rx": "*",
-	"nodeunit": "*"
+	"rx": "2.0.x",
+	"nodeunit": "0.8.x"
     },
     "scripts": {
 	"bld": "node-gyp --debug build",

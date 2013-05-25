@@ -5,14 +5,14 @@
     "description": "Web tool for FIX message analysis",
     "keyfords": ["fix", "quickfix", "pprint", "pretty print"],
     "dependencies": {
-	"requirejs": "2.1.5",
-	"rx": "2.0.2",
-	"winston": "0.7.1",
-	"express": "3.2.1"
+	"requirejs": "2.1.x",
+	"rx": "2.0.x",
+	"winston": "0.7.x",
+	"express": "3.2.x"
     },
     "devDependencies": {
-	"nodeunit": "0.8.0",
-	"nodemock": "0.2.17"
+	"nodeunit": "0.8.x",
+	"nodemock": "0.2.x"
     },
     "main": "server.js",
     "scripts": {
