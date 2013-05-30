@@ -100,8 +100,8 @@ Handle<Array> ObjectBuilder::makeGroupList(FIX::FieldMap const& fields) const
       for (k = kbegin; k != kend; ++k)
 	{
 	  list->Set(Integer::New(i), makeFieldMap(**k, it->first, groupName));
+	  ++i;
 	}
-      ++i;
     }
   
   return scope.Close(list);
