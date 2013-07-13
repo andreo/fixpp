@@ -1,4 +1,5 @@
 
+var log = require('winston').loggers.get('test_Message');
 var quickfix = require('../lib/quickfix');
 var Rx = require('rx');
 var rxutil = require('rxutil');

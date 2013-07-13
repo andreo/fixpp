@@ -7,7 +7,8 @@
     },
     "devDependencies": {
 	"rx": "2.0.x",
-	"nodeunit": "0.8.x"
+	"nodeunit": "0.8.x",
+	"winston": "0.7.x"
     },
     "scripts": {
 	"debug": "node-gyp --debug build",
