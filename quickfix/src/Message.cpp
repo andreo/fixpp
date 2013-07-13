@@ -74,13 +74,20 @@ v8::Handle<v8::Value> Message::headerToJSON(v8::Arguments const& args)
   v8::HandleScope scope;
 
   Message* self = node::ObjectWrap::Unwrap<Message>(args.This());
+  FIX::DataDictionary* fdd = 0;
 
-  if (args.Length() != 1) {
+  if (args.Length() == 0) {
+    fdd = 0;
+  }
+  else if (args.Length() == 1) {
+    DataDictionary* dict = node::ObjectWrap::Unwrap<DataDictionary>(args[0]->ToObject());
+    fdd = dict->GetDataDictionary();
+  }
+  else {
       v8::ThrowException(v8::Exception::Error(v8::String::New("invalid argument")));
   }
-  DataDictionary* dict = node::ObjectWrap::Unwrap<DataDictionary>(args[0]->ToObject());
 
-  ObjectBuilder builder(dict->GetDataDictionary());
+  ObjectBuilder builder(fdd);
   v8::Handle<v8::Value> header = builder.makeFieldList(self->m_message.getHeader());
 
   return scope.Close(header);

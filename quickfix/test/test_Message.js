@@ -76,3 +76,26 @@ exports.test_header = function (test) {
 		test.done();
 	    });
 };
+
+exports.test_headerWithoutDictionary = function (test) {
+    Rx.Observable
+	.readFile('test/fix_messages/simple1.fix')
+	.subscribe(
+	    function (text) {
+		var msg = new quickfix.Message();
+		msg.setStringHeader(text);
+
+		var actualHeader = msg.headerToJSON();
+		var expected = [ { field: 8, value: 'FIX.4.2' },
+				 { field: 9, value: '146' },
+				 { field: 35, value: 'D' },
+				 { field: 34, value: '4' },
+				 { field: 49, value: 'ABC_DEFG01' },
+				 { field: 52, value: '20090323-15:40:29' },
+				 { field: 56, value: 'CCG' },
+				 { field: 115, value: 'XYZ' } ];
+
+		test.deepEqual(actualHeader, expected);
+		test.done();
+	    });
+};

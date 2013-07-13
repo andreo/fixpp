@@ -92,7 +92,9 @@ Handle<Array> ObjectBuilder::makeGroupList(FIX::FieldMap const& fields) const
   for (it = begin; it != end; ++it)
     {
       std::string groupName;
-      m_dataDictionary->getFieldName(it->first, groupName);
+      if (m_dataDictionary) {
+        m_dataDictionary->getFieldName(it->first, groupName);
+      }
       std::vector<FIX::FieldMap*>::const_iterator
 	k,
 	kbegin = it->second.begin(),
