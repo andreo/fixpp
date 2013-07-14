@@ -28,7 +28,7 @@
                 ],
                 [
                     'OS=="linux"', {
-                        'cflags_cc': ['-fcxx-exceptions'],
+                        'cflags_cc': ['-fexceptions'],
                     },
                 ],
             ],
