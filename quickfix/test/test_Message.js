@@ -26,7 +26,7 @@ function testMessage (path) {
 		var msg = new quickfix.Message();
 		msg.setString(fix, dict);
 
-		var actual = msg.toJSON(dict);
+		var actual = msg.messageToJSON(dict);
 		// console.log(JSON.stringify(actual, null, 4));
 
 		test.deepEqual(actual, expected);

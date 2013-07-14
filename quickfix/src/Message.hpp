@@ -21,7 +21,7 @@ private:
   static v8::Handle<v8::Value> setStringHeader(v8::Arguments const& args);
   static v8::Handle<v8::Value> setString(v8::Arguments const& args);
   static v8::Handle<v8::Value> headerToJSON(v8::Arguments const& args);
-  static v8::Handle<v8::Value> toJSON(v8::Arguments const& args);
+  static v8::Handle<v8::Value> messageToJSON(v8::Arguments const& args);
 
   FIX::Message m_message;
   static v8::Persistent<v8::Function> s_constructor;

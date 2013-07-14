@@ -25,7 +25,7 @@ V8_MODULE_BEGIN(Message)
   V8_CLASS_FUNCTION(setStringHeader);
   V8_CLASS_FUNCTION(setString);
   V8_CLASS_FUNCTION(headerToJSON);
-  V8_CLASS_FUNCTION(toJSON);
+  V8_CLASS_FUNCTION(messageToJSON);
   V8_CLASS_END(Message);
 }
 
@@ -69,38 +69,38 @@ v8::Handle<v8::Value> Message::setString(v8::Arguments const& args)
   return scope.Close(v8::Undefined());
 }
 
+namespace {
+
+  FIX::DataDictionary* extractDictionary(v8::Arguments const& args)
+  {
+    if (args.Length() == 0) {
+      return 0;
+    }
+    else if (args.Length() == 1) {
+      DataDictionary* dict = node::ObjectWrap::Unwrap<DataDictionary>(args[0]->ToObject());
+      return dict->GetDataDictionary();
+    }
+    else {
+      v8::ThrowException(v8::Exception::Error(v8::String::New("invalid argument")));
+      return 0;
+    }
+  }
+
+}
+
 v8::Handle<v8::Value> Message::headerToJSON(v8::Arguments const& args)
 {
   v8::HandleScope scope;
-
   Message* self = node::ObjectWrap::Unwrap<Message>(args.This());
-  FIX::DataDictionary* fdd = 0;
-
-  if (args.Length() == 0) {
-    fdd = 0;
-  }
-  else if (args.Length() == 1) {
-    DataDictionary* dict = node::ObjectWrap::Unwrap<DataDictionary>(args[0]->ToObject());
-    fdd = dict->GetDataDictionary();
-  }
-  else {
-      v8::ThrowException(v8::Exception::Error(v8::String::New("invalid argument")));
-  }
-
-  ObjectBuilder builder(fdd);
+  ObjectBuilder builder(extractDictionary(args));
   v8::Handle<v8::Value> header = builder.makeFieldList(self->m_message.getHeader());
-
   return scope.Close(header);
 }
 
-v8::Handle<v8::Value> Message::toJSON(v8::Arguments const& args)
+v8::Handle<v8::Value> Message::messageToJSON(v8::Arguments const& args)
 {
   v8::HandleScope scope;
-
   Message* self = node::ObjectWrap::Unwrap<Message>(args.This());
-  DataDictionary* dict = node::ObjectWrap::Unwrap<DataDictionary>(args[0]->ToObject());
-
-  ObjectBuilder builder(dict->GetDataDictionary());
-
+  ObjectBuilder builder(extractDictionary(args));
   return scope.Close(builder(self->m_message));
 }
