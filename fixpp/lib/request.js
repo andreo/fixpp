@@ -52,3 +52,26 @@ function processTask(fixMsg, context) {
     );
 }
 exports.processTask = processTask;
+
+function processTasks (bufferStream, context) {
+    return context.Rx.Observable.createWithDisposable(
+        function (observer) {
+            return bufferStream
+	        .toBuffer()
+                .select(function (buffer) {
+                    var jsonReq = context.parseJSON(buffer.toString());
+                    normalizeSeparators(jsonReq);
+                    return jsonReq;
+                })
+                .selectMany(function (jsonReq) {
+                    return context.Rx.Observable
+                        .findFixMessages(jsonReq.message)
+                        .selectMany(function (fixMsg) {
+                            return processTask(fixMsg, self.context);
+                        });
+                })
+	        .subscribe(observer);
+        }
+    );
+}
+exports.processTasks = processTasks;

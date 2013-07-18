@@ -166,3 +166,47 @@ exports.test_processTask_fail2 = function (test) {
                     onCompleted(230)]);
     test.done();
 };
+
+exports.test_processTasks_emptyBuffer = function (test) {
+
+    var scheduler = new Rx.TestScheduler();
+
+    var buffers = scheduler.createColdObservable(
+        onCompleted(20)
+    );
+    var context = {
+        Rx: Rx,
+        nameResolver: undefined,
+        specstorage: undefined
+    };
+    var results = scheduler.startWithCreate(
+        function () {
+            return request.processTasks(buffers, context);
+        });
+
+    test.deepEqual(results.messages, [onError(220, new Error('Unexpected end of input'))]);
+    test.done();
+};
+
+exports.test_processTasks_emptyMessage = function (test) {
+
+    var scheduler = new Rx.TestScheduler();
+
+    var buffers = scheduler.createColdObservable(
+        onNext(10, new Buffer('{"message":"","separator": ""}')),
+        onCompleted(20)
+    );
+    var context = {
+        Rx: Rx,
+        parseJSON: JSON.parse,
+        nameResolver: undefined,
+        specstorage: undefined
+    };
+    var results = scheduler.startWithCreate(
+        function () {
+            return request.processTasks(buffers, context);
+        });
+
+    test.deepEqual(results.messages, [onCompleted(220)]);
+    test.done();
+};
