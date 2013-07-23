@@ -11,7 +11,7 @@ var rt = Rx.ReactiveTest;
 function makeTest (conf) {
     return function (test) {
         var scheduler = new Rx.TestScheduler();
-        Rx.Observable.loadDictionary = function (path) {
+        Rx.Observable.loadFixDictionary = function (path) {
             // logger.debug(conf.eventMap);
             // logger.debug(path);
             if (path in conf.eventMap) {
@@ -127,7 +127,7 @@ exports.test_cache = function (test) {
             rt.onCompleted(30)
         ]);
 
-    Rx.Observable.loadDictionary = function (path) {
+    Rx.Observable.loadFixDictionary = function (path) {
         return observable;
     };
 

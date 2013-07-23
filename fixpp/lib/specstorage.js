@@ -14,7 +14,7 @@ SpecStorage.prototype.findDictionary = function (name) {
     var failoverList = this.directoryList.map(
 	function (directory) {
 	    var dictPath = path.join(directory, name);
-	    return Rx.Observable.loadDictionary(dictPath);
+	    return Rx.Observable.loadFixDictionary(dictPath);
 	});
     return Rx.Observable.catchException(failoverList).first();
 };
