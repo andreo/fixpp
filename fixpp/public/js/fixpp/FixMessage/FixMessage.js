@@ -58,7 +58,7 @@ define(
                 var module = this.renderMap[type] || this.renderMap.pretty;
                 var view = new module.View(
                     {
-                        model: this.model.get('message'),
+                        model: this.model.get('json'),
                         el: $('.formatted-message', this.$el)
                     });
                 view.render();

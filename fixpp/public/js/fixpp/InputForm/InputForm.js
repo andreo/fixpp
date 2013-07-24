@@ -30,7 +30,7 @@ define(
                 return this;
             },
 
-            initialise: function () {
+            initialize: function () {
                 _.bindAll(this);
             },
 

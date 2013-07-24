@@ -67,7 +67,7 @@ function processTasks (bufferStream, context) {
                     return context.Rx.Observable
                         .findFixMessages(jsonReq.message)
                         .selectMany(function (fixMsg) {
-                            return processTask(fixMsg, self.context);
+                            return processTask(fixMsg, context);
                         });
                 })
 	        .subscribe(observer);
