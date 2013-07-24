@@ -24,19 +24,25 @@ SpecStorage.prototype.load = function (name) {
 
     return self.Rx.Observable.createWithDisposable(
 	function (observer) {
-	    var cache;
-	    if (name in self.spec) {
-		cache = self.spec[name];
-	    }
-	    else {
-		cache = new self.Rx.AsyncSubject();
-		self.spec[name] = cache;
+            try {
+	        var cache;
+	        if (name in self.spec) {
+		    cache = self.spec[name];
+	        }
+	        else {
+		    cache = new self.Rx.AsyncSubject();
+		    self.spec[name] = cache;
 
-		var sub = self
-		    .findDictionary(name)
-		    .subscribe(cache);
-	    }
-	    return cache.subscribe(observer);
+		    var sub = self
+		        .findDictionary(name)
+		        .subscribe(cache);
+	        }
+	        return cache.subscribe(observer);
+            }
+            catch (error) {
+                observer.onError(error);
+                return self.Rx.Disposable.empty;
+            }
 	});
 };
 
