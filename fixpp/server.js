@@ -25,8 +25,8 @@ var app = express()
     .use(express.static(__dirname + '/public'))
     .post('/fixpp', fixpp.prettyPrint.bind(fixpp));
 
-var host = config.host || 'localhost';
-var port = config.port || 3000;
+var host = process.env.HOST || config.host || 'localhost';
+var port = process.env.PORT || config.port || 3000;
 
 app.listen(port, host, function () {
     var url = 'http://' + host + ':' + port + '/';
