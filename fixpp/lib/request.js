@@ -1,7 +1,6 @@
 var util = require('util');
 var specstorage = require('./specstorage');
 var log = require('winston').loggers.get('request');
-var quickfix = require('quickfix');
 
 var FIX_SEPARATOR = String.fromCharCode(1);
 
@@ -75,3 +74,28 @@ function processTasks (bufferStream, context) {
     );
 }
 exports.processTasks = processTasks;
+
+function Request (req, res, context) {
+    this.req = req;
+    this.res = res;
+    this.context = context;
+
+    var buffers = context.Rx.Observable.readStream(req)
+    this.cancel = processTasks(buffers, context)
+        .toArray()
+        .debug('processTasks')
+        .subscribe(this.onData.bind(this),
+                   this.onError.bind(this),
+                   function () {});
+}
+
+Request.prototype.onData = function (data) {
+    this.res.json({ status: "ok", data: data });
+};
+
+Request.prototype.onError = function (error) {
+    log.error(util.inspect(error));
+    this.res.json({ status: "error", error: util.inspect(error)});
+};
+
+exports.Request = Request;
