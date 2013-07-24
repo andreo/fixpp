@@ -145,7 +145,7 @@ define(
                     el: $('#main-view'),
                     model: loadModel('fixpp')
                 });
-                main.render();
+                view.render();
             }
         };
     });
