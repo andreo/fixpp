@@ -16,6 +16,22 @@
     background-color: hsl(25, 93%, 93%);
 }
 
+.messages {
+    padding: 0;
+    text-indend: 0;
+    display: inline;
+    line-height: 2em;
+    list-style-type: none;
+}
+
+.message {
+    box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.1em 0.5em 0;
+    background-color: hsl(255, 100%, 100%);
+    border-radius: 0.8em;
+    margin-top: 0.5em;
+    padding: 1em;
+}
+
 .fix-field-list, .fix-group-list {
     list-style-type: none;
 }
