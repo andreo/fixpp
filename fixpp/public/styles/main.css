@@ -1,4 +1,21 @@
 
+.collapse-button {
+    color: #723600;
+    font-family: Helvetica, sans-serif;
+    size: 1.2em;
+
+    padding: 0.15em;
+    border-radius: 0.3em;
+    background-color: hsl(25, 85%, 85%);
+    text-decoration: node;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+}
+
+.collapse-button:hover {
+    background-color: hsl(25, 93%, 93%);
+}
+
 .fix-field-list, .fix-group-list {
     list-style-type: none;
 }
