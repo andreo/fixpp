@@ -26,6 +26,15 @@
 
 .message {
     box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.1em 0.5em 0;
+    background-color: hsl(0, 100%, 100%);
+    border-radius: 0.8em;
+    margin-top: 0.5em;
+    padding: 1em;
+}
+
+.input-form {
+    line-height: 1.5.em;
+    box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.1em 0.5em 0;
     background-color: hsl(255, 100%, 100%);
     border-radius: 0.8em;
     margin-top: 0.5em;
