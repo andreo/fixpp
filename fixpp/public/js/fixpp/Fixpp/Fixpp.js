@@ -49,6 +49,10 @@ define(
                     model: this.model.get('input')
                 });
                 inputForm.render();
+
+                this.renderMessages(this.model.get('result'));
+
+                return this;
             },
 
             renderMessage: function (message) {
@@ -115,11 +119,11 @@ define(
             },
 
             onFail: function () {
-                $('#result', this.$el)
-                    .append(fixErrorTemplate({
+                $('.messages', this.$el)
+                    .append('<li>'+fixErrorTemplate({
                         status: "error",
                         error: "HTTP request failed"
-                    }))
+                    })+'</li>')
                     .fadeIn("slow");
             }
         });
