@@ -20,9 +20,11 @@ define(
         });
 
         var Model = Backbone.Model.extend({
-            initialize: function() {
-                this.set('input', new InputForm.Model());
-                this.set('result', new FixMessageList());
+            constructor: function (attributes, options) {
+                attributes = attributes || {};
+                attributes.input = attributes.input || new InputForm.Model();
+                attributes.result = attributes.result || new FixMessageList();
+                Backbone.Model.call(this, attributes, options);
             }
         });
 
