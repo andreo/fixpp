@@ -8,26 +8,33 @@ define(
         , "fixpp/PlainText/PlainText"
         , "fixpp/PrettyPrint/PrettyPrint"
         , "text!./FixMessage.html"
+        , "text!./Error.html"
     ],
-    function ($, Backbone, _, Handlebars, PlainText, PrettyPrint, templateText) {
+    function ($, Backbone, _, Handlebars, PlainText, PrettyPrint, templateText, errorTemplateText) {
 
 	var Model = Backbone.Model.extend({
 	    defaults: {
 		dictionary: '',
-		message: ''
+		json: ''
 	    }
 	});
 
 	var View = Backbone.View.extend({
 
 	    template: Handlebars.compile(templateText),
+            errorTemplate: Handlebars.compile(errorTemplateText),
 
             model: Model,
 
             render: function () {
-                this.$el.html(this.template(this.model.attributes));
-                var renderType = $('#render-type', this.$el).val();
-                this.renderWithType(renderType);
+                if (this.model.get('error')) {
+                    this.$el.html(this.errorTemplate(this.model.attributes));
+                }
+                else {
+                    this.$el.html(this.template(this.model.attributes));
+                    var renderType = $('#render-type', this.$el).val();
+                    this.renderWithType(renderType);
+                }
                 return this;
             },
 
