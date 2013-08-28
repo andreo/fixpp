@@ -82,6 +82,11 @@ function Request (req, res, context) {
 
     var buffers = context.Rx.Observable.readStream(req)
     this.cancel = processTasks(buffers, context)
+        .doAction(function (data) {
+            if (data.error) {
+                data.error = util.inspect(data.error);
+            }
+        })
         .toArray()
         .debug('processTasks')
         .subscribe(this.onData.bind(this),
