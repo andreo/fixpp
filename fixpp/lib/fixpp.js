@@ -4,7 +4,7 @@ var log = require('winston').loggers.get('fixpp');
 
 var request = require('./request');
 var specstorage = require('./specstorage');
-var nameresolver = require('./DictionaryNameResolver');
+var nameresolver = require('./dictionarynameresolver');
 var quickfix = require('quickfix');
 
 function FixPP (Rx, config) {

@@ -1,5 +1,5 @@
 
-var DictionaryNameResolver = require('../lib/DictionaryNameResolver');
+var DictionaryNameResolver = require('../lib/dictionarynameresolver');
 
 exports.setUp = function (callback) {
     this.resolver = DictionaryNameResolver(
