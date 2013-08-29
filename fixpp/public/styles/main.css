@@ -45,21 +45,19 @@ pre {
     list-style-type: none;
 }
 
-.message {
-    box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.1em 0.5em 0;
+.shadow-box {
+    box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.2em 0.7em 0;
     background-color: hsl(0, 100%, 100%);
     border-radius: 0.8em;
     margin-top: 0.5em;
     padding: 1em;
 }
 
+.message {
+}
+
 .input-form {
     line-height: 1.5em;
-    box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.1em 0.5em 0;
-    background-color: hsl(255, 100%, 100%);
-    border-radius: 0.8em;
-    margin-top: 0.5em;
-    padding: 1em;
 }
 
 .formatted-message {

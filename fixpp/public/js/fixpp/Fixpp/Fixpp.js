@@ -58,7 +58,7 @@ define(
             renderMessage: function (message) {
                 var messageForm = new FixMessage.View({
                     tagName: 'li',
-                    className: 'message',
+                    className: 'message shadow-box',
                     model: message
                 });
                 return messageForm.render().el;
