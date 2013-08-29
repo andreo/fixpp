@@ -17,6 +17,8 @@
     },
     "main": "server.js",
     "scripts": {
-	"test": "nodeunit test"
+	"test": "nodeunit test",
+        "debug": "node debug $(which nodeunit) test/test_request.js -t test_3",
+        "help": "nodeunit --help"
     }
 }
