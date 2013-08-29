@@ -1,10 +1,12 @@
 
+var path = require('path');
 var quickfix = require('../build/Release/node_quickfix.node');
 var rxutil = require('rxutil');
 
 exports.loadDictionary = quickfix.loadDictionary;
 exports.Message = quickfix.Message;
 exports.DataDictionary = quickfix.DataDictionary;
+exports.SPECPATH = path.normalize(path.join(__dirname, '../spec'));
 
 exports.extend = function (Rx) {
 
