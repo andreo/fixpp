@@ -210,3 +210,60 @@ exports.test_processTasks_emptyMessage = function (test) {
     test.deepEqual(results.messages, [onCompleted(220)]);
     test.done();
 };
+
+exports.test_processTasks_happyPath = function (test) {
+
+    var scheduler = new Rx.TestScheduler();
+
+    var fixMsg = '8=...\u000110=123\u0001';
+    var fixRequest = JSON.stringify({"message": fixMsg, "separator": ""});
+    // var fixRequest = '{ "message": "", "separator": "" }';
+    JSON.parse(fixRequest);
+    var jsonMsg = '<json-msg>';
+    var dataDictionary = '<dict>';
+    var header = '<header>';
+    var dictName = '<dict-name>';
+
+    var buffers = scheduler.createColdObservable(
+        onNext(10, new Buffer(fixRequest)),
+        onCompleted(30)
+    );
+
+    var spec = scheduler.createColdObservable(
+        onNext(10, dataDictionary),
+        onCompleted(20)
+    );
+
+    var msgMock = schmock.mock('Message');
+    msgMock.when('setStringHeader').with(fixMsg);
+    msgMock.when('headerToJSON').with().return(header);
+    msgMock.when('setString').with(fixMsg, dataDictionary);
+    msgMock.when('messageToJSON').with(dataDictionary).return(jsonMsg);
+
+    var nameResolver = schmock.mock('nameResolver');
+    nameResolver.when('resolve').with(header).return(dictName);
+
+    var specstorage = schmock.mock('specstorage');
+    specstorage.when('load').with(dictName).return(spec);
+
+    var context = {
+        Rx: Rx,
+        createMessage: function () { return msgMock; },
+        nameResolver: nameResolver,
+        specstorage: specstorage,
+        parseJSON: JSON.parse
+    };
+
+    var results = scheduler.startWithCreate(
+        function () {
+            return request.processTasks(buffers, context);
+        });
+
+    test.deepEqual(results.messages,
+                   [onNext(240, { fixMsg: fixMsg,
+                                  dictName: dictName,
+                                  json: jsonMsg
+                                }),
+                    onCompleted(250)]);
+    test.done();
+};
