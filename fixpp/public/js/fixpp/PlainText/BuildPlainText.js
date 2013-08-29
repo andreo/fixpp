@@ -7,7 +7,7 @@ define(
 	function BuildPlainText(message) {
 	    this.strings = [];
 	    this.offsetStep = ".   ";
-	    this.write('<pre>');
+	    this.write('<pre class="plain-text">');
 	    this.writeMessage("", message);
 	    this.write('</pre>');
 	    this.resultString = this.strings.join('');
