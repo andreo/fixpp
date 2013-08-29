@@ -1,9 +1,10 @@
 
-html {
-    background-color: hsl(19, 88%, 60%);
+body {
     display: block;
     font-family: Helvetica, sans-serif;
     padding: 0em;
+    background-image: url(../images/noise.png);
+    background-color: hsl(19, 88%, 60%);
 }
 
 #main-view {
