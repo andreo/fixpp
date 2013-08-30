@@ -91,7 +91,7 @@ function Request (req, res, context) {
         .parseRequest(context)
         .doAction(function (jsonReq) { self.jsonReq = jsonReq; })
         .processTasks(context)
-        .doAction(function (data) { data.error && data.error = util.inspect(data.error); })
+        .doAction(function (data) { if (data.error) { data.error = util.inspect(data.error); } })
         .toArray()
         .debug('processTasks')
         .subscribe(self.onData.bind(this),
