@@ -80,23 +80,22 @@ exports.extend = function (Rx) {
 };
 
 function Request (req, res, context) {
-    this.req = req;
-    this.res = res;
-    this.context = context;
+    var self = this;
 
-    this.cancel = context.Rx.Observable
+    self.req = req;
+    self.res = res;
+    self.context = context;
+
+    self.cancel = context.Rx.Observable
         .readStream(req)
         .parseRequest(context)
+        .doAction(function (jsonReq) { self.jsonReq = jsonReq; })
         .processTasks(context)
-        .doAction(function (data) {
-            if (data.error) {
-                data.error = util.inspect(data.error);
-            }
-        })
+        .doAction(function (data) { data.error && data.error = util.inspect(data.error); })
         .toArray()
         .debug('processTasks')
-        .subscribe(this.onData.bind(this),
-                   this.onError.bind(this),
+        .subscribe(self.onData.bind(this),
+                   self.onError.bind(this),
                    function () {});
 }
 
