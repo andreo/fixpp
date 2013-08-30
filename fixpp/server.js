@@ -5,6 +5,8 @@ var express = require('express');
 var fs = require('fs');
 var util = require('util');
 var Rx = require('rx');
+var request = require('./lib/request');
+request.extend(Rx);
 var quickfix = require('quickfix');
 quickfix.extend(Rx);
 var rxutil = require('rxutil');

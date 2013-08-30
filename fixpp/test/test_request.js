@@ -14,6 +14,7 @@ var util = require('util');
 var schmock = require('schmock');
 var Rx = require('rx');
 var request = require('../lib/request');
+request.extend(Rx);
 var rxutil = require('rxutil');
 rxutil.extend(Rx);
 var quickfix = require('quickfix');
@@ -181,7 +182,7 @@ exports.test_processTasks_emptyBuffer = function (test) {
     };
     var results = scheduler.startWithCreate(
         function () {
-            return request.processTasks(buffers, context);
+            return buffers.parseRequest(context).processTasks(context);
         });
 
     test.deepEqual(results.messages, [onError(220, new Error('Unexpected end of input'))]);
@@ -204,7 +205,7 @@ exports.test_processTasks_emptyMessage = function (test) {
     };
     var results = scheduler.startWithCreate(
         function () {
-            return request.processTasks(buffers, context);
+            return buffers.parseRequest(context).processTasks(context);
         });
 
     test.deepEqual(results.messages, [onCompleted(220)]);
@@ -256,7 +257,7 @@ exports.test_processTasks_happyPath = function (test) {
 
     var results = scheduler.startWithCreate(
         function () {
-            return request.processTasks(buffers, context);
+            return buffers.parseRequest(context).processTasks(context);
         });
 
     test.deepEqual(results.messages,

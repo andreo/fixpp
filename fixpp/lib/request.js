@@ -52,31 +52,42 @@ function processTask(fixMsg, context) {
 }
 exports.processTask = processTask;
 
-function processTasks (bufferStream, context) {
-    return bufferStream
-	.toBuffer()
-        .select(function (buffer) {
-            var jsonReq = context.parseJSON(buffer.toString());
-            normalizeSeparators(jsonReq);
-            return jsonReq;
-        })
-        .selectMany(function (jsonReq) {
-            return context.Rx.Observable
-                .findFixMessages(jsonReq.message)
-                .selectMany(function (fixMsg) {
-                    return processTask(fixMsg, context);
-                });
-        });
-}
-exports.processTasks = processTasks;
+exports.extend = function (Rx) {
+
+    var proto = Rx.Observable.prototype;
+
+    proto.parseRequest = function (context) {
+        return this
+	    .toBuffer()
+            .select(function (buffer) {
+                var jsonReq = context.parseJSON(buffer.toString());
+                normalizeSeparators(jsonReq);
+                return jsonReq;
+            });
+    };
+
+    proto.processTasks = function (context) {
+        return this
+            .selectMany(function (jsonReq) {
+                return context.Rx.Observable
+                    .findFixMessages(jsonReq.message)
+                    .selectMany(function (fixMsg) {
+                        return processTask(fixMsg, context);
+                    });
+            });
+    };
+
+};
 
 function Request (req, res, context) {
     this.req = req;
     this.res = res;
     this.context = context;
 
-    var buffers = context.Rx.Observable.readStream(req)
-    this.cancel = processTasks(buffers, context)
+    this.cancel = context.Rx.Observable
+        .readStream(req)
+        .parseRequest(context)
+        .processTasks(context)
         .doAction(function (data) {
             if (data.error) {
                 data.error = util.inspect(data.error);
