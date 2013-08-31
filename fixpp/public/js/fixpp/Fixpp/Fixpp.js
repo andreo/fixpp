@@ -96,35 +96,28 @@ define(
                     .fail(this.onFail);
             },
 
+            resetList: function (newList) {
+                this.model.get('result').reset(newList);
+            },
+
             onData: function (response) {
-                var resultData;
                 if (response.status == "ok") {
                     var list = response.data;
                     if (list.length == 0) {
-                        resultData = noFixMessagesFoundTemplate();
+                        this.resetList([{error: "ERROR: no FIX messages found" }]);
                     }
                     else {
-                        this.model.get('result').reset(list);
+                        this.resetList(list);
                         localStorage.setItem('fixpp', $.toJSON(this.model.toJSON()));
-                        return ;
                     }
                 }
                 else {
-                    resultData = fixErrorTemplate(response);
+                    this.resetList([response]);
                 }
-
-                $('#result', this.$el)
-                    .append(resultData)
-                    .fadeIn("slow");
             },
 
             onFail: function () {
-                $('.messages', this.$el)
-                    .append('<li>'+fixErrorTemplate({
-                        status: "error",
-                        error: "HTTP request failed"
-                    })+'</li>')
-                    .fadeIn("slow");
+                this.resetList([{error: "HTTP request failed"}]);
             }
         });
 
