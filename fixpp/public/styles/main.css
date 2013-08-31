@@ -26,7 +26,7 @@ pre {
     font-family: Helvetica, sans-serif;
     size: 1.2em;
 
-    background-color: rgb(189, 44, 0);
+    background-color: hsl(14, 100%, 37%);
 
     padding: 0.1em 0.9em;
     border-radius: 0.3em;
@@ -61,7 +61,7 @@ pre {
     display: block;
     padding: 0.5em;
     color: hsl(0, 0%, 20%);
-    background-color: rgb(255, 234, 213);
+    background-color: hsl(30, 100%, 92%);
     line-height: 1.3em;
     font-family: "Courier";
 }
@@ -88,14 +88,14 @@ pre {
 }
 
 .title1 {
-    color: #723600;
+    color: hsl(28, 100%, 22%);
     font-family: Helvetica, sans-serif;
     font-weight: bold;
     font-size: 2em;
 }
 
 .title2 {
-    color: #723600;
+    color: hsl(0, 0%, 40%);
     font-family: Helvetica, sans-serif;
     font-size: 1.2em;
 }
@@ -148,5 +148,5 @@ pre {
     color: black;
     font-family: "Courier";
     font-weight: normal;
-    background-color: rgb(255, 234, 213);
+    background-color: hsl(30, 100%, 92%);
 }
