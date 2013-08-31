@@ -21,20 +21,17 @@ pre {
 }
 
 .collapse-button {
-    color: #723600;
+    display: inline-block;
+    color: white;
     font-family: Helvetica, sans-serif;
     size: 1.2em;
 
-    padding: 0.15em;
-    border-radius: 0.3em;
-    background-color: hsl(25, 85%, 85%);
-    text-decoration: none;
-    margin-top: 0.1em;
-    margin-bottom: 0.1em;
-}
+    background-color: rgb(189, 44, 0);
 
-.collapse-button:hover {
-    background-color: hsl(25, 93%, 93%);
+    padding: 0.1em 0.9em;
+    border-radius: 0.3em;
+    text-decoration: none;
+    margin-top: 0.5em;
 }
 
 .messages {
