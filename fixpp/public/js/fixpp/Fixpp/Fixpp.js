@@ -64,18 +64,47 @@ define(
             },
 
             updateModel: function (model) {
-                this.messageList.reset(model.data);
-                this.set('state', model.status == 'ok' ? 'succeeded' : 'error');
+                var state;
+                var messageList;
+
+                if (model.status == 'error') {
+                    messageList = [{error: model.error}];
+                    state = 'error';
+                }
+                else {
+                    if (model.data.length == 0) {
+                        messageList = [{error: "ERROR: no FIX messages found" }];
+                    }
+                    else {
+                        messageList = model.data;
+                    }
+                    state = 'succeeded';
+                }
+                this.messageList.reset(messageList);
+                this.set('hash', model.hash);
+                this.set('state', state);
             },
 
             onStateChange: function (fixpp, state) {
                 if (state == 'succeeded') {
-                    Backbone.history.navigate('#local', { route: false });
                     this.save();
                 }
                 else if (state == 'submitting') {
                     this.submitting();
                 }
+            },
+
+            loadFixmessage: function (hash) {
+                this.messageList.reset();
+                $.ajax({
+                    type: "GET",
+                    url: "/fixmessage/" + hash,
+                    processData: false,
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+                    .done(this.updateModel)
+                    .fail(this.onError);
             },
 
             submitting: function () {
@@ -88,20 +117,12 @@ define(
                     contentType: "application/json",
                     dataType: "json"
                 })
-                    .done(this.onData)
+                    .done(this.updateModel)
                     .fail(this.onError);
             },
 
-            onData: function (response) {
-                if (response.data.length == 0) {
-                    response.data = [{error: "ERROR: no FIX messages found" }];
-                }
-                this.updateModel(response);
-            },
-
-            onError: function () {
-                response.data = [{error: "HTTP request failed"}];
-                this.updateModel(response);
+            onError: function (error) {
+                this.updateModel({ status: 'error', error: error.responseText || "HTTP request failed" });
             },
 
         });
@@ -163,40 +184,5 @@ define(
         return {
             Model: Model,
             View: View,
-            start: function () {
-
-                var model = new Model();
-
-                var Router = Backbone.Router.extend({
-
-                    routes: {
-                        '': 'local',
-                        '/': 'local',
-                        'local': 'local',
-                        'new': 'new',
-                        'persistent/:hash': 'persistent'
-                    },
-
-                    local: function () {
-                        model.load();
-                    },
-
-                    new: function () {
-                        model.reset();
-                    },
-
-                    persistent: function (hash) {
-                    }
-                });
-
-                var router = new Router();
-                Backbone.history.start();
-
-                var view = new View({
-                    el: $('body'),
-                    model: model
-                });
-                view.render();
-            }
         };
     });

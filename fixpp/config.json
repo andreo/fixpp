@@ -4,5 +4,6 @@
     "specpath": [],
     "dictionaryMap": {
         ".*": "FIX50SP2.xml"
-    }
+    },
+    "logFile": "/Users/andreo/trash/logs/fixpp.log"
 }

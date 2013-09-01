@@ -37,9 +37,9 @@ requirejs.config({
 requirejs(
     [
         'jquery'
-        , 'fixpp/Fixpp/Fixpp'
+        , 'fixpp/app'
         , 'jquery.json'
     ],
-    function ($, Fixpp) {
-        Fixpp.start();
+    function ($, app) {
+        app();
     });

@@ -12,6 +12,7 @@ quickfix.extend(Rx);
 var rxutil = require('rxutil');
 rxutil.extend(Rx);
 var fixpp = require('./lib/fixpp');
+var filecache = require('./lib/filecache');
 
 var config = require(process.env.CONFIG || __dirname + "/config.json");
 
@@ -21,10 +22,11 @@ var httpLogger = express.logger(
 	stream: fs.createWriteStream(config.logFile, { flags: 'a' })
     });
 
-var fixpp = new fixpp.FixPP(Rx, config);
+var cache = new filecache.FileCache('/Users/andreo/trash/cache/', Rx);
+var fixpp = new fixpp.FixPP(Rx, cache, config);
 
 function days(n) {
-    return 1000*3600*24*n;
+    return 0;//1000*3600*24*n;
 }
 
 var app = express()
@@ -32,6 +34,7 @@ var app = express()
     .use(httpLogger)
     .use(express.static(__dirname + '/public', { maxAge: days(3) }))
     .post('/fixpp', fixpp.prettyPrint.bind(fixpp))
+    .get('/fixmessage/:hash', fixpp.handleStatic.bind(fixpp));
 
 var host = process.env.HOST || config.host || 'localhost';
 var port = process.env.PORT || config.port || 3000;

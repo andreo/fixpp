@@ -16,7 +16,8 @@ define(
         var Model = Backbone.Model.extend({
             defaults: {
                 separator: "",
-                message: ""
+                message: "",
+                persistent: false
             }
         });
 
@@ -38,6 +39,7 @@ define(
 
             events: {
                 'click #submit': 'submit',
+                'click #persistent': 'submit',
                 'paste #fix-message': 'delayedSubmit',
                 'paste #separator': 'delayedSubmit',
             },
@@ -45,9 +47,9 @@ define(
             submit: function () {
                 this.model.set({
                     separator: this.$('#separator').val(),
-                    message: this.$('#fix-message').val()
+                    message: this.$('#fix-message').val(),
+                    persistent: this.$('#persistent').is(':checked')
                 });
-
                 this.model.trigger('submit');
             },
 

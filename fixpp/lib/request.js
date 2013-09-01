@@ -79,33 +79,40 @@ exports.extend = function (Rx) {
 
 };
 
-function Request (req, res, context) {
-    var self = this;
+function handleRequest (req, context) {
+    return context.Rx.Observable.createWithDisposable(
+        function (observer) {
+            try {
+                var state = {
+                    req: req,
+                    context: context
+                };
 
-    self.req = req;
-    self.res = res;
-    self.context = context;
+                function prettyError(data) {
+                    if (data.error) {
+                        data.error = util.inspect(data.error);
+                    }
+                }
 
-    self.cancel = context.Rx.Observable
-        .readStream(req)
-        .parseRequest(context)
-        .doAction(function (jsonReq) { self.jsonReq = jsonReq; })
-        .processTasks(context)
-        .doAction(function (data) { if (data.error) { data.error = util.inspect(data.error); } })
-        .toArray()
-        .debug('processTasks')
-        .subscribe(self.onData.bind(this),
-                   self.onError.bind(this),
-                   function () {});
+                return context.Rx.Observable
+                    .readStream(req)
+                    .parseRequest(context)
+                    .doAction(function (jsonReq) { state.jsonReq = jsonReq; })
+                    .processTasks(context)
+                    .doAction(prettyError)
+                    .toArray()
+                    .select(function (data) {
+                        state.data = data;
+                        return state;
+                    })
+                    .subscribe(observer);
+            }
+            catch (error) {
+                observer.onError(error);
+                return Rx.Disposable.empty;
+            }
+        }
+    );
 }
 
-Request.prototype.onData = function (data) {
-    this.res.json({ status: "ok", data: data });
-};
-
-Request.prototype.onError = function (error) {
-    log.error(util.inspect(error));
-    this.res.json({ status: "error", error: util.inspect(error)});
-};
-
-exports.Request = Request;
+exports.handleRequest = handleRequest;

@@ -3,6 +3,7 @@ define(
     function (InputForm) {
         return new InputForm.Model({
             separator: "sep",
-            message: "msg"
+            message: "msg",
+            persistent: true
         });
     });
