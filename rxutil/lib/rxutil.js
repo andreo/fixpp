@@ -96,6 +96,14 @@ exports.extend = function (Rx) {
 	    });
     };
 
+    Rx.Observable.writeFile = function (filename, data) {
+	return Rx.Observable.createWithDisposable(
+	    function (observer) {
+		fs.writeFile(filename, data, exports.makeCallback(observer));
+		return Rx.Disposable.empty;
+	    });
+    };
+
     Rx.Observable.prototype.toBuffer = function () {
 	return this
 	    .toArray()
