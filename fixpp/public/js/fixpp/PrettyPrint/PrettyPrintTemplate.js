@@ -1,7 +1,7 @@
 var templates = [
     "fix_field_list_template",
     "fix_field_template",
-    "fix_gorup_template",
+    "fix_group_template",
     "fix_group_list_template",
     "fix_message_template",
 ];
