@@ -1,10 +1,24 @@
 
+html {
+    padding: 0em;
+}
+
+.caption {
+    box-shadow: hsla(0, 0%, 0%, 0.4) 0 0.2em 0.7em 0;
+    background-color: hsl(0, 40%, 37%);
+    padding: 0em 1em 0.5em 1em;
+    margin: 0em;
+    border-bottom-left-radius: 0.8em;
+    border-bottom-right-radius: 0.8em;
+}
+
 body {
     display: block;
     font-family: Helvetica, sans-serif;
     padding: 0em;
     background-image: url(../images/noise.png);
     background-color: hsl(19, 88%, 60%);
+    margin: 0em;
 }
 
 #main-view {
@@ -15,7 +29,7 @@ body {
 
 pre {
     background-color: white;
-    margin: 0;
+    margin: 0em;
     display: inline-block;
     overflow-x: visible;
 }
@@ -26,7 +40,8 @@ pre {
     font-family: Helvetica, sans-serif;
     size: 1.2em;
 
-    background-color: hsl(14, 100%, 37%);
+    /* background-color: hsl(14, 100%, 37%); */
+    background-color: hsl(0, 40%, 37%);
 
     padding: 0.1em 0.9em;
     border-radius: 0.3em;
@@ -92,7 +107,8 @@ pre {
 }
 
 .title1 {
-    color: hsl(28, 100%, 22%);
+    /* color: hsl(28, 100%, 22%); */
+    color: white;
     font-family: Helvetica, sans-serif;
     font-weight: bold;
     font-size: 2em;

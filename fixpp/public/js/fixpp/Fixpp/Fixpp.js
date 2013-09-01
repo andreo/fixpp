@@ -141,7 +141,7 @@ define(
             View: View,
             start: function () {
                 var view = new View({
-                    el: $('#main-view'),
+                    el: $('body'),
                     model: loadModel('fixpp')
                 });
                 view.render();
