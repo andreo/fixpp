@@ -74,7 +74,11 @@ pre {
 }
 
 .edit {
-    border: 1px solid hsl(0, 0, 0.8);
+    color: gray;
+    border-color: hsl(0, 0%, 80%);
+
+    border-style: solid;
+    border-width: 1px;
     font-size: 0.9em;
 }
 
