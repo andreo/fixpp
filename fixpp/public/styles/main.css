@@ -8,6 +8,9 @@ html {
     background-color: hsl(0, 40%, 37%);
     padding: 0em 1em 0.5em 1em;
     margin: 0em;
+    border-style: none dashed dashed dashed;
+    border-color: hsla(0, 0%, 100%, 0.3);
+    border-width: 1px;
     border-bottom-left-radius: 0.8em;
     border-bottom-right-radius: 0.8em;
 }
