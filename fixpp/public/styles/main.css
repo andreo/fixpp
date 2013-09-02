@@ -88,6 +88,20 @@ pre {
     font-weight: bold;
 }
 
+#separator::-webkit-input-placeholder, #fix-message::-webkit-input-placeholder {
+    color: hsl(0, 100%, 76%);
+    font-size: 0.9em;
+    font-style: italic;
+    font-family: Courier;
+}
+
+#separator::-moz-placeholder, #fix-message::-moz-placeholder {
+    color: red;
+    font-size: 0.9em;
+    font-style: italic;
+    font-family: Courier;
+}
+
 .edit {
     color: gray;
     border-color: hsl(0, 0%, 80%);
@@ -95,10 +109,11 @@ pre {
     border-style: solid;
     border-width: 1px;
     font-size: 0.9em;
+    font-family: Courier;
 }
 
 #separator {
-    width: 25em;
+    width: 50%;
 }
 
 #fix-message {
