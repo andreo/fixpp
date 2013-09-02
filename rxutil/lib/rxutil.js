@@ -91,7 +91,12 @@ exports.extend = function (Rx) {
     Rx.Observable.readFile = function (filename) {
 	return Rx.Observable.createWithDisposable(
 	    function (observer) {
-		fs.readFile(filename, exports.makeCallback(observer));
+                try {
+		    fs.readFile(filename, exports.makeCallback(observer));
+                }
+                catch (error) {
+                    observer.onError(error);
+                }
 		return Rx.Disposable.empty;
 	    });
     };
@@ -99,7 +104,12 @@ exports.extend = function (Rx) {
     Rx.Observable.writeFile = function (filename, data) {
 	return Rx.Observable.createWithDisposable(
 	    function (observer) {
-		fs.writeFile(filename, data, exports.makeCallback(observer));
+                try {
+		    fs.writeFile(filename, data, exports.makeCallback(observer));
+                }
+                catch (error) {
+                    observer.onError(error);
+                }
 		return Rx.Disposable.empty;
 	    });
     };
