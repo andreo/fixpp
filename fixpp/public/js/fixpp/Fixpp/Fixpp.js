@@ -7,14 +7,9 @@ define(
         , "fixpp/InputForm/InputForm"
         , "fixpp/FixMessage/FixMessage"
         , "text!./templates/Fixpp.html"
-        , "text!./templates/FixError.html"
-        , "text!./templates/NoFixMessagesFound.html"
     ],
-    function ($, Backbone, _, Handlebars, InputForm, FixMessage, FixppText, FixErrorText, NoFixMessagesFoundText) {
+    function ($, Backbone, _, Handlebars, InputForm, FixMessage, FixppText) {
 
-        var fixErrorTemplate = Handlebars.compile(FixErrorText);
-        var noFixMessagesFoundTemplate = Handlebars.compile(NoFixMessagesFoundText);
-        
         var FixMessageList = Backbone.Collection.extend({
             model: FixMessage.Model
         });
