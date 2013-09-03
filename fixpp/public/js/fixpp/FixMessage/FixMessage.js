@@ -21,17 +21,19 @@ define(
 
 	var View = Backbone.View.extend({
 
-	    template: Handlebars.compile(templateText),
-            errorTemplate: Handlebars.compile(errorTemplateText),
+	    template: {
+                ok: Handlebars.compile(templateText),
+                error: Handlebars.compile(errorTemplateText)
+            },
 
             model: Model,
 
             render: function () {
                 if (this.model.get('error')) {
-                    this.$el.html(this.errorTemplate(this.model.toJSON()));
+                    this.$el.html(this.template.error(this.model.toJSON()));
                 }
                 else {
-                    this.$el.html(this.template(this.model.toJSON()));
+                    this.$el.html(this.template.ok(this.model.toJSON()));
                     var renderType = $('#render-type', this.$el).val();
                     this.renderWithType(renderType);
                 }
