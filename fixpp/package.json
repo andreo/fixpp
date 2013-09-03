@@ -19,6 +19,6 @@
     "scripts": {
 	"test": "nodeunit test",
         "debug": "node debug $(which nodeunit) test/test_request.js -t test_3",
-        "help": "nodeunit --help"
+        "nodemon": "nodemon -w ../rxutil -w ../quickfix -w lib -w server.js"
     }
 }
