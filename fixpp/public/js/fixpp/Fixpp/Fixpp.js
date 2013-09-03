@@ -6,7 +6,7 @@ define(
         , "handlebars"
         , "fixpp/InputForm/InputForm"
         , "fixpp/FixMessage/FixMessage"
-        , "text!./templates/Fixpp.html"
+        , "text!./Fixpp.html"
     ],
     function ($, Backbone, _, Handlebars, InputForm, FixMessage, FixppText) {
 
