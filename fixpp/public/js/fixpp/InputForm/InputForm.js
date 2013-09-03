@@ -25,7 +25,7 @@ define(
             model: Model,
 
             render: function () {
-                var html = this.template(this.model.attributes);
+                var html = this.template(this.model.toJSON());
                 this.$el.html(html);
                 return this;
             },

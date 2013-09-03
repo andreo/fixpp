@@ -83,7 +83,7 @@ define(
                     type: "POST",
                     url: "/fixpp",
                     processData: false,
-                    data: $.toJSON(this.model.get('input').attributes),
+                    data: $.toJSON(this.model.get('input').toJSON()),
                     contentType: "application/json",
                     dataType: "json"
                 })
