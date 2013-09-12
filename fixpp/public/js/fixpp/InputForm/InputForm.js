@@ -46,7 +46,7 @@ define(
                     message: $('#fix-message').val()
                 });
 
-                this.model.trigger('prettyPrint');
+                this.model.trigger('submit');
             },
 
             delayedSubmit: function () {

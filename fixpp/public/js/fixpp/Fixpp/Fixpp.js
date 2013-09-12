@@ -14,38 +14,123 @@ define(
             model: FixMessage.Model
         });
 
-        var Model = Backbone.Model.extend({
-            constructor: function (attributes, options) {
-                attributes = attributes || {};
-                attributes.input = attributes.input || new InputForm.Model();
-                attributes.result = attributes.result || new FixMessageList();
-                Backbone.Model.call(this, attributes, options);
+        function loadModel(key, model) {
+            var value = localStorage.getItem(key);
+            if (value) {
+                model.set(JSON.parse(value));
             }
+        }
+
+        function saveModel(key, model) {
+            localStorage.setItem(key, $.toJSON(model.toJSON()));
+        }
+
+        var Model = Backbone.Model.extend({
+            defaults: {
+                state: 'start'
+            },
+
+            initialize: function() {
+                this.inputForm = new InputForm.Model();
+                this.messageList = new FixMessageList();
+
+                _.bindAll(this);
+
+                var self = this;
+                this.listenTo(this.inputForm, 'submit', function () {
+                    self.set('state', 'submitting');
+                });
+                this.listenTo(this, 'change:state', this.onStateChange);
+            },
+
+            serialize: function(foo) {
+                foo("fixpp.InputForm", this.inputForm);
+                foo("fixpp.FixMessageList", this.messageList);
+                // foo("fixpp.Main", this);
+            },
+
+            load: function () {
+                this.serialize(loadModel);
+            },
+
+            save: function() {
+                this.serialize(saveModel);
+            },
+
+            setError: function (error) {
+                this.messageList.reset([error]);
+                this.set('state', 'error');
+            },
+
+            setSucceeded: function (messages) {
+                this.messageList.reset(messages);
+                this.set('state', 'succeeded');
+            },
+
+            onStateChange: function (fixpp, state) {
+                // this['on'+state].call(this);
+                if (state == 'succeeded') {
+                    this.save();
+                }
+                else if (state == 'submitting') {
+                    this.submitting();
+                }
+            },
+
+            submitting: function () {
+                this.messageList.reset();
+                $.ajax({
+                    type: "POST",
+                    url: "/fixpp",
+                    processData: false,
+                    data: $.toJSON(this.inputForm.toJSON()),
+                    contentType: "application/json",
+                    dataType: "json"
+                })
+                    .done(this.onData)
+                    .fail(this.onError);
+            },
+
+            onData: function (response) {
+                if (response.status != "ok") {
+                    return this.setError(response);
+                }
+
+                if (response.data.length == 0) {
+                    return this.setError({error: "ERROR: no FIX messages found" });
+                }
+
+                this.setSucceeded(response.data);
+            },
+
+            onError: function () {
+                this.setError({error: "HTTP request failed"});
+            },
+
         });
 
         var View = Backbone.View.extend({
             
             template: Handlebars.compile(FixppText),
             
-            model: Model,
-            
             initialize: function () {
                 _.bindAll(this);
-                this.model.get('input').on('prettyPrint', this.prettyPrint);
-                this.model.get('result').on('add', this.appendMessage);
-                this.model.get('result').on('reset', this.renderMessages);
-                this.messageList = undefined;
+
+                this.listenTo(this.model.messageList, {
+                    'add': this.appendMessage,
+                    'reset': this.renderMessages
+                });
             },
 
             render: function () {
                 this.$el.html(this.template());
                 var inputForm = new InputForm.View({
                     el: $('.input-form', this.$el),
-                    model: this.model.get('input')
+                    model: this.model.inputForm
                 });
                 inputForm.render();
 
-                this.renderMessages(this.model.get('result'));
+                this.renderMessages(this.model.messageList);
 
                 return this;
             },
@@ -75,71 +160,39 @@ define(
                     msgEl.fadeIn("slow");
                 }
             },
-
-            prettyPrint: function () {
-                this.model.get('result').reset();
-                
-                $.ajax({
-                    type: "POST",
-                    url: "/fixpp",
-                    processData: false,
-                    data: $.toJSON(this.model.get('input').toJSON()),
-                    contentType: "application/json",
-                    dataType: "json"
-                })
-                    .done(this.onData)
-                    .fail(this.onFail);
-            },
-
-            resetList: function (newList) {
-                this.model.get('result').reset(newList);
-            },
-
-            onData: function (response) {
-                if (response.status == "ok") {
-                    var list = response.data;
-                    if (list.length == 0) {
-                        this.resetList([{error: "ERROR: no FIX messages found" }]);
-                    }
-                    else {
-                        this.resetList(list);
-                        localStorage.setItem('fixpp', $.toJSON(this.model.toJSON()));
-                    }
-                }
-                else {
-                    this.resetList([response]);
-                }
-            },
-
-            onFail: function () {
-                this.resetList([{error: "HTTP request failed"}]);
-            }
         });
-
-        // TODO: refactor model loading routine
-        function loadModel(key) {
-            var data = localStorage.getItem(key);
-            if (data) {
-                data = JSON.parse(data);
-                return new Model({
-                    input: new InputForm.Model(data.input),
-                    result: new FixMessageList(data.result)
-                });
-            }
-            else {
-                return new Model();
-            }
-        }
 
         return {
             Model: Model,
             View: View,
             start: function () {
-                var view = new View({
-                    el: $('body'),
-                    model: loadModel('fixpp')
+
+                var Router = Backbone.Router.extend({
+
+                    routes: {
+                        '': 'local',
+                        '/': 'local',
+                        'local': 'local',
+                        'persistent/:hash': 'persistent'
+                    },
+
+                    local: function () {
+                        var model = new Model();
+                        model.load();
+
+                        var view = new View({
+                            el: $('body'),
+                            model: model
+                        });
+                        view.render();
+                    },
+
+                    persistent: function (hash) {
+                    }
                 });
-                view.render();
+
+                var router = new Router();
+                Backbone.history.start();
             }
         };
     });
