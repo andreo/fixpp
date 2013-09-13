@@ -65,6 +65,7 @@ define(
 
             renderWithType: function (type) {
                 var module = this.renderMap[type] || this.renderMap.pretty;
+                // TODO: fix view leaks
                 var view = new module.View(
                     {
                         model: this.model.get('json'),
