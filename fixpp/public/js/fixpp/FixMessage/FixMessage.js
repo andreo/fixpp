@@ -65,13 +65,20 @@ define(
 
             renderWithType: function (type) {
                 var module = this.renderMap[type] || this.renderMap.pretty;
-                // TODO: fix view leaks
-                var view = new module.View(
+
+                if (this.view) {
+                    this.view.remove();
+                }
+                var subView = new module.View(
                     {
                         model: this.model.get('json'),
-                        el: this.$('.formatted-message')
                     });
-                view.render();
+                subView.listenTo(this, 'remove', subView.remove);
+                subView.render();
+
+                this.$('.formatted-message').append(subView.el);
+
+                this.view = subView;
             }
 	});
 
