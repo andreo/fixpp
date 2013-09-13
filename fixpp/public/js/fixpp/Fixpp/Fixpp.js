@@ -116,6 +116,8 @@ define(
             initialize: function () {
                 _.bindAll(this);
 
+                this.listenTo(this.model, 'remove', this.remove);
+
                 this.listenTo(this.model.messageList, {
                     'add': this.appendMessage,
                     'reset': this.renderMessages

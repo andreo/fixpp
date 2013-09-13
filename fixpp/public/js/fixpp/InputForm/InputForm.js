@@ -32,6 +32,8 @@ define(
 
             initialize: function () {
                 _.bindAll(this);
+
+                this.listenTo(this.model, 'remove', this.remove);
             },
 
             events: {
