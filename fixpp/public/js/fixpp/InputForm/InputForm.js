@@ -42,8 +42,8 @@ define(
 
             submit: function () {
                 this.model.set({
-                    separator: $('#separator').val(),
-                    message: $('#fix-message').val()
+                    separator: this.$('#separator').val(),
+                    message: this.$('#fix-message').val()
                 });
 
                 this.model.trigger('submit');

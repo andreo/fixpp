@@ -34,7 +34,7 @@ define(
                 }
                 else {
                     this.$el.html(this.template.ok(this.model.toJSON()));
-                    var renderType = $('#render-type', this.$el).val();
+                    var renderType = this.$('#render-type').val();
                     this.renderWithType(renderType);
                 }
                 return this;
@@ -55,7 +55,7 @@ define(
             },
 
             collapse: function () {
-                $('.formatted-message', this.$el).slideToggle();
+                this.$('.formatted-message').slideToggle();
             },
 
             changeRenderType: function (evt) {
@@ -68,7 +68,7 @@ define(
                 var view = new module.View(
                     {
                         model: this.model.get('json'),
-                        el: $('.formatted-message', this.$el)
+                        el: this.$('.formatted-message')
                     });
                 view.render();
             }

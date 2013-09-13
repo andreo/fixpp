@@ -28,7 +28,7 @@ define(
 	    
 	    render: function () {
 		this.$el.html(this.template(this.model).string);
-		$('.fix-tag-value', this.$el).each(
+		this.$('.fix-tag-value').each(
 		    function (i, e) {
 			pprintXml(e);
 			highlight(e);

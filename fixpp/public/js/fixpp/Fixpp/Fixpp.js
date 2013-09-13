@@ -125,7 +125,7 @@ define(
             render: function () {
                 this.$el.html(this.template());
                 var inputForm = new InputForm.View({
-                    el: $('.input-form', this.$el),
+                    el: this.$('.input-form'),
                     model: this.model.inputForm
                 });
                 inputForm.render();
@@ -144,13 +144,13 @@ define(
             },
 
             appendMessage: function (message) {
-                var messages = $('.messages', this.$el);
+                var messages = this.$('.messages');
                 messages.append(this.renderMessage(message));
             },
 
             renderMessages: function (messages) {
-                $('#result', this.$el).html('<ul class="messages"></ul>');
-                var list = $('.messages', this.$el);
+                this.$('#result').html('<ul class="messages"></ul>');
+                var list = this.$('.messages');
                 // TODO: is messages.models an array?????
                 for (var i = 0; i < messages.models.length; i++) {
                     var msgEl = $(this.renderMessage(messages.models[i]));
