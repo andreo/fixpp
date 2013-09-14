@@ -8,7 +8,7 @@
 	"requirejs": "2.1.x",
 	"rx": "2.0.x",
 	"winston": "0.7.x",
-	"express": "3.2.x",
+	"express": "3.4.x",
 	"winston": "0.7.x"
     },
     "devDependencies": {
