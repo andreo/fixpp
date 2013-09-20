@@ -62,13 +62,11 @@ Handle<Array> ObjectBuilder::makeFieldList(FIX::FieldMap const& fields) const
   HandleScope scope;
 
   Local<Array> list = Array::New();
-  FIX::FieldMap::iterator
-    it,
-    begin = fields.begin(),
-    end = fields.end();
   int i = 0;
-
-  for (it = begin; it != end; ++it)
+  FIX::FieldMap::iterator
+    it = fields.begin(),
+    end = fields.end();
+  for (; it != end; ++it)
     {
       list->Set(Integer::New(i),
 		makeField(it->first, it->second.getString()));
@@ -83,23 +81,20 @@ Handle<Array> ObjectBuilder::makeGroupList(FIX::FieldMap const& fields) const
   HandleScope scope;
 
   Local<Array> list = Array::New();
-  FIX::FieldMap::g_iterator
-    it,
-    begin = fields.g_begin(),
-    end = fields.g_end();
   int i = 0;
-
-  for (it = begin; it != end; ++it)
+  FIX::FieldMap::g_iterator
+    it = fields.g_begin(),
+    end = fields.g_end();
+  for (; it != end; ++it)
     {
       std::string groupName;
       if (m_dataDictionary) {
         m_dataDictionary->getFieldName(it->first, groupName);
       }
       std::vector<FIX::FieldMap*>::const_iterator
-	k,
-	kbegin = it->second.begin(),
+	k = it->second.begin(),
 	kend = it->second.end();
-      for (k = kbegin; k != kend; ++k)
+      for (; k != kend; ++k)
 	{
 	  list->Set(Integer::New(i), makeFieldMap(**k, it->first, groupName));
 	  ++i;
