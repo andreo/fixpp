@@ -31,6 +31,37 @@
                         'cflags_cc': ['-fexceptions'],
                     },
                 ],
+                [
+                    'OS=="win"', {
+                        'include_dirs': [
+                            '$(QUICKFIX_DIR)include/',
+                        ],
+                        'configurations': {
+                            'Debug': {
+                                'msvs_settings': {
+                                    'VCCLCompilerTool': {
+                                        'RuntimeLibrary': 3, # MultiThreadedDebugDLL
+                                    },
+                                },
+                            },
+                            'Release': {
+                                'msvs_settings': {
+                                    'VCCLCompilerTool': {
+                                        'RuntimeLibrary': 2, # MultiThreadedDLL
+                                    },
+                                },
+                            },
+                        },
+                        'msvs_settings': {
+                            'VCCLCompilerTool': {
+                                'DisableSpecificWarnings': ['4530', '4506'],
+                            },
+                            'VCLinkerTool': {
+                                'AdditionalLibraryDirectories': '$(QUICKFIX_DIR)lib/',
+                            },
+                        },
+                    },
+                ],
             ],
             'link_settings': {
                 'libraries': [
