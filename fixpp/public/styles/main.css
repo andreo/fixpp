@@ -132,12 +132,6 @@ pre {
     font-size: 2em;
 }
 
-.title2 {
-    color: hsl(0, 0%, 40%);
-    font-family: Helvetica, sans-serif;
-    font-size: 1.2em;
-}
-
 .fix-field-list, .fix-group-list {
     list-style-type: none;
 }
