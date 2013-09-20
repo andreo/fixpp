@@ -24,6 +24,7 @@ var httpLogger = express.logger(
 var fixpp = new fixpp.FixPP(Rx, config);
 
 var app = express()
+    .use(express.compress())
     .use(httpLogger)
     .use(express.static(__dirname + '/public'))
     .post('/fixpp', fixpp.prettyPrint.bind(fixpp));
