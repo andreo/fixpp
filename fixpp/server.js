@@ -13,13 +13,14 @@ var rxutil = require('rxutil');
 rxutil.extend(Rx);
 var fixpp = require('./lib/fixpp');
 
+var config = require(process.env.CONFIG || __dirname + "/config.json");
+
 var httpLogger = express.logger(
     {
 	format: ':remote-addr - - [:date][:response-time ms] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
-	stream: fs.createWriteStream('/Users/andreo/trash/logs/fixpp.log', { flags: 'a' })
+	stream: fs.createWriteStream(config.logFile, { flags: 'a' })
     });
 
-var config = require(process.env.CONFIG || __dirname + "/config.json");
 var fixpp = new fixpp.FixPP(Rx, config);
 
 var app = express()
