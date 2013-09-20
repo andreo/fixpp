@@ -23,11 +23,15 @@ var httpLogger = express.logger(
 
 var fixpp = new fixpp.FixPP(Rx, config);
 
+function days(n) {
+    return 1000*3600*24*n;
+}
+
 var app = express()
     .use(express.compress())
     .use(httpLogger)
-    .use(express.static(__dirname + '/public'))
-    .post('/fixpp', fixpp.prettyPrint.bind(fixpp));
+    .use(express.static(__dirname + '/public', { maxAge: days(3) }))
+    .post('/fixpp', fixpp.prettyPrint.bind(fixpp))
 
 var host = process.env.HOST || config.host || 'localhost';
 var port = process.env.PORT || config.port || 3000;
