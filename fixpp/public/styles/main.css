@@ -132,6 +132,13 @@ pre {
     font-size: 2em;
 }
 
+.nav-title {
+    color: hsl(0, 0%, 80%);
+    font-family: Helvetica, sans-serif;
+    font-size: 1em;
+    text-decoration: none;
+}
+
 .fix-field-list, .fix-group-list {
     list-style-type: none;
 }

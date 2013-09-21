@@ -43,6 +43,12 @@ define(
                 this.listenTo(this, 'change:state', this.onStateChange);
             },
 
+            reset: function () {
+                this.inputForm.clear();
+                this.messageList.reset();
+                this.clear();
+            },
+
             serialize: function(foo) {
                 foo("fixpp.InputForm", this.inputForm);
                 foo("fixpp.FixMessageList", this.messageList);
@@ -57,19 +63,14 @@ define(
                 this.serialize(saveModel);
             },
 
-            setError: function (error) {
-                this.messageList.reset([error]);
-                this.set('state', 'error');
-            },
-
-            setSucceeded: function (messages) {
-                this.messageList.reset(messages);
-                this.set('state', 'succeeded');
+            updateModel: function (model) {
+                this.messageList.reset(model.data);
+                this.set('state', model.status == 'ok' ? 'succeeded' : 'error');
             },
 
             onStateChange: function (fixpp, state) {
-                // this['on'+state].call(this);
                 if (state == 'succeeded') {
+                    Backbone.history.navigate('#local', { route: false });
                     this.save();
                 }
                 else if (state == 'submitting') {
@@ -92,19 +93,15 @@ define(
             },
 
             onData: function (response) {
-                if (response.status != "ok") {
-                    return this.setError(response);
-                }
-
                 if (response.data.length == 0) {
-                    return this.setError({error: "ERROR: no FIX messages found" });
+                    response.data = [{error: "ERROR: no FIX messages found" }];
                 }
-
-                this.setSucceeded(response.data);
+                this.updateModel(response);
             },
 
             onError: function () {
-                this.setError({error: "HTTP request failed"});
+                response.data = [{error: "HTTP request failed"}];
+                this.updateModel(response);
             },
 
         });
@@ -168,24 +165,24 @@ define(
             View: View,
             start: function () {
 
+                var model = new Model();
+
                 var Router = Backbone.Router.extend({
 
                     routes: {
                         '': 'local',
                         '/': 'local',
                         'local': 'local',
+                        'new': 'new',
                         'persistent/:hash': 'persistent'
                     },
 
                     local: function () {
-                        var model = new Model();
                         model.load();
+                    },
 
-                        var view = new View({
-                            el: $('body'),
-                            model: model
-                        });
-                        view.render();
+                    new: function () {
+                        model.reset();
                     },
 
                     persistent: function (hash) {
@@ -194,6 +191,12 @@ define(
 
                 var router = new Router();
                 Backbone.history.start();
+
+                var view = new View({
+                    el: $('body'),
+                    model: model
+                });
+                view.render();
             }
         };
     });
