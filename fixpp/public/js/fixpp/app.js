@@ -35,9 +35,9 @@ define(
 
             var router = new Router();
             Backbone.history.start();
-            model.on('change:state', function (state) {
+            model.on('change:state', function (model, state) {
                 if (state == 'succeeded') {
-                    var hash = this.get('hash');
+                    var hash = model.get('hash');
                     if (hash) {
                         Backbone.history.navigate('#fixmessage/'+hash, { route: false });
                     }

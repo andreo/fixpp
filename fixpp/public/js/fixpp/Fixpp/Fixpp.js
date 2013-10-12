@@ -56,6 +56,7 @@ define(
             },
 
             load: function () {
+                this.messageList.reset();
                 this.serialize(loadModel);
             },
 
