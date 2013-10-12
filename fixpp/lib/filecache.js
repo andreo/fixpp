@@ -59,13 +59,17 @@ function makeHash (data) {
 }
 
 FileCache.prototype.save = function (value) {
+    var self = this;
 
     var str = JSON.stringify(value);
     var key = makeHash(str);
 
-    return this.Rx.Observable
-        .writeFile(this.makeFileName(key), str)
-        .select(function () { return key; });
+    return self
+        .makeFileName(key)
+        .selectMany(function (fileName) {
+                return self.Rx.Observable.writeFile(fileName, str)
+                .select(function () { return key; });
+        });
 };
 
 exports.FileCache = FileCache;
