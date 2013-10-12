@@ -22,7 +22,7 @@ var httpLogger = express.logger(
 	stream: fs.createWriteStream(config.logFile, { flags: 'a' })
     });
 
-var cache = new filecache.FileCache('/Users/andreo/trash/cache/', Rx);
+var cache = new filecache.FileCache(config.fileCache, Rx);
 var fixpp = new fixpp.FixPP(Rx, cache, config);
 
 function days(n) {
