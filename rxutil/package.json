@@ -6,7 +6,7 @@
 	"winston": "0.7.x"
     },
     "devDependencies": {
-	"rx": "2.0.x",
+	"rx": "2.2.x",
 	"nodeunit": "0.8.x",
 	"nodemock": "0.2.x"
     },

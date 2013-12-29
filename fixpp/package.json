@@ -6,7 +6,7 @@
     "keyfords": ["fix", "quickfix", "pprint", "pretty print"],
     "dependencies": {
 	"requirejs": "2.1.x",
-	"rx": "2.0.x",
+	"rx": "2.2.x",
 	"winston": "0.7.x",
 	"express": "3.4.x",
 	"winston": "0.7.x"
